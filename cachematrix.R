@@ -5,7 +5,7 @@
 ## complements each other.If it doesn't find answer, it will 
 ## compute and store it for furture uses.
  
-## The function we are going to construct contains two aspects.
+#  The function we are going to construct contains two aspects.
 ## first function called makeCacheMatrix is to make a matrix and
 ## store the inverse of a matrix,and second function is to fetch
 ## the result.If it doesn't find the result we ask, it solves,
@@ -18,11 +18,11 @@
 makeCacheMatrix=function(x = matrix()) {
 ### initialize the inverse of a matrix as null
 ### for setImatrix(newImatrix) to store in.
-    Imatrix=NULL 
+    Imatrix=NULL
 ### set the values of the input matrixes
     setmatrix=function(pool){x<<-pool;Imatrix<<-NULL}
 ### Based on cacheSolve's cache order,it needs to check if 
-### the inverse matrix exists.But, need to read in Imatrix prior
+### the inverse matrix exists.But, need to fetch Imatrix prior
 ### to check it.
     fetchImatrix=function(){Imatrix}
 ### If Imatrix is null, then cacheSovle function asks for fetching
@@ -31,27 +31,28 @@ makeCacheMatrix=function(x = matrix()) {
 ### after solving the new matrix, 
 ### new Imatrix is assigned by superassignment
     setImatrix=function(newImatrix){Imatrix<<-newImatrix}
-### list accessable functions    
+### list functions which cacheSolve can call.  
     list(setmatrix=setmatrix,fetchmatrix=fetchmatrix
      ,setImatrix=setImatrix,fetchImatrix=fetchImatrix)
 }
 
-#  Function 2:this function fetch the result from the 
-### makeCacheMatrix function at the first satrt,
-### if Imatrix is null, it fetches the original matrix,solves it and 
-### stores it back makeCacheMatrix function.
+#   Function 2:this function fetch the result from the 
+## makeCacheMatrix function at the first satrt,
+## if Imatrix is null, it fetches the original matrix,solves it
+## and stores it back makeCacheMatrix function.
 cacheSolve <- function(x, ...) {
 ### first subset fetchImatrix from first function to cache the
-### inverse of a matrix.    
-    Imatrix=x$fetchImatrix()
-### If we have had it,return it and remind that it had been computed.
-if(!is.null(Imatrix)){message("getting cached inverse!!")
+### inverse of a matrix.
+Imatrix=x$fetchImatrix()
+### If we have had it,return it and remind that it had been 
+### computed.
+if(!is.null(Imatrix)){message("getting cached inverse matrix!!")
     return(Imatrix)}
 ### else,get and solve the new matrix.
     new=x$fetchmatrix()
     Imatrix=solve(new,...)
-### stored it back to first function.    
+### stored it back to makecacheMatrix function.    
     x$setImatrix(Imatrix)
-## return the inverse matrix newly computed.   
+### return the inverse matrix.   
     Imatrix
 }
